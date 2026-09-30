@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TudClip — AI Video Creation & Multi-Platform Publishing Studio</title>
+  <meta name="description" content="TudClip is an AI-powered desktop and web video creation platform. Automatically turn presentations, podcasts, and e-commerce products into short-form videos with subtitles and direct TikTok publishing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(19, 27, 46, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(30, 41, 69, 0.9);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --secondary: #818cf8;
+      --accent: #34d399;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 60%, rgba(129, 140, 248, 0.08) 0%, transparent 40%);
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #7dd3fc;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #000;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+    }
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 19px);
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #0284c7);
+      color: #041226;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Features Grid */
+    .section-title {
+      text-align: center;
+      margin: 60px 0 36px;
+    }
+    .section-title h2 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+    }
+    .card:hover {
+      background: var(--card-hover);
+      border-color: rgba(56, 189, 248, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* TikTok Integration Banner */
+    .tiktok-banner {
+      background: linear-gradient(135deg, rgba(254, 44, 85, 0.08), rgba(37, 244, 238, 0.08));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 36px;
+      margin: 40px 0 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .tiktok-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tiktok-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .scope-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .scope-item {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 13px;
+    }
+
+    .scope-item strong {
+      display: block;
+      color: var(--primary);
+      margin-bottom: 4px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    /* Legal Sections */
+    .legal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 30px;
+    }
+
+    .legal-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .legal-card p, .legal-card li {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .legal-card ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 36px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-inner">
+      <div class="logo">
+        <div class="logo-icon">▶</div>
+        <span>TudClip</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#tiktok">TikTok Integration</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="container">
+    <section class="hero">
+      <div class="badge">✨ Next-Generation AI Video Creator</div>
+      <h1>Create & Publish High-Impact <br><span>Short-Form Videos</span></h1>
+      <p>
+        TudClip is an all-in-one AI video studio designed for creators and digital marketers. 
+        Transform presentation slides, podcasts, and e-commerce products into vertical videos 
+        with synchronized subtitles, dynamic camera motion, and direct TikTok publishing.
+      </p>
+      <div class="hero-actions">
+        <a href="#features" class="btn btn-primary">Explore Features</a>
+        <a href="#tiktok" class="btn btn-secondary">TikTok Integration Details</a>
+      </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features">
+      <div class="section-title">
+        <h2>What TudClip Does</h2>
+        <p>A complete toolchain from ideation to automated multi-platform distribution</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">🎙️</div>
+          <h3>Podcast & Slide Synchronizer</h3>
+          <p>
+            Converts static presentation slides and spoken audio into engaging video podcasts. 
+            Uses OCR and semantic Viterbi alignment to match each slide to spoken timestamps automatically.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🛍️</div>
+          <h3>Affiliate Marketing Factory</h3>
+          <p>
+            Transforms e-commerce URLs into short-form marketing videos with AI-synthesized scripts, 
+            natural Edge-TTS voiceovers, and word-level karaoke animated subtitles.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📱</div>
+          <h3>Direct Social Publishing</h3>
+          <p>
+            Publish videos directly to TikTok and short-form platforms with a single click. 
+            Customize video titles, hashtags, custom thumbnails, and privacy levels seamlessly.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>GPU Hardware Acceleration</h3>
+          <p>
+            Powered by NVENC hardware video encoding and local AI model inference. 
+            Fast rendering times with minimal resource overhead.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TikTok Integration Section -->
+    <section id="tiktok" class="tiktok-banner">
+      <div class="tiktok-header">
+        <h3>TikTok for Developers Integration</h3>
+      </div>
+      <p style="color: var(--text-muted); font-size: 14px;">
+        TudClip integrates with TikTok via the official TikTok Developer Platform (Login Kit and Content Posting API) 
+        to empower content creators with effortless video publishing:
+      </p>
+
+      <div class="scope-list">
+        <div class="scope-item">
+          <strong>Login Kit (user.info.basic)</strong>
+          Enables creators to securely link their TikTok account via OAuth 2.0 and display their account username within TudClip.
+        </div>
+        <div class="scope-item">
+          <strong>Content Posting API (video.upload)</strong>
+          Uploads video chunks directly to TikTok servers using the chunked upload protocol.
+        </div>
+        <div class="scope-item">
+          <strong>Content Posting API (video.publish)</strong>
+          Finalizes and posts the creator's video to their TikTok feed with user-specified captions, custom covers, and privacy settings.
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section id="privacy" class="legal-card">
+      <h2>Privacy Policy</h2>
+      <p>Last updated: September 30, 2026</p>
+      <p>
+        At TudClip, we respect your privacy and are committed to protecting your personal data. 
+        This privacy policy explains how we handle information when you use our video creation and publishing platform.
+      </p>
+      <ul>
+        <li><strong>OAuth Tokens:</strong> When you connect your TikTok account, access tokens are encrypted and stored locally on your device or self-hosted server solely to authorize video uploads on your behalf.</li>
+        <li><strong>No Unauthorized Uploads:</strong> TudClip will never upload, modify, or delete any content on your TikTok account without your explicit manual trigger.</li>
+        <li><strong>Data Sharing:</strong> We do not sell, rent, or share your personal data or uploaded media with any third parties other than the platforms you choose to publish to (TikTok, YouTube, Meta).</li>
+        <li><strong>Media Storage:</strong> Video files and audio tracks are stored locally in your designated workspaces directory.</li>
+      </ul>
+      <p>If you have any questions about this privacy policy, you may contact our development team.</p>
+    </section>
+
+    <!-- Terms of Service Section -->
+    <section id="terms" class="legal-card">
+      <h2>Terms of Service</h2>
+      <p>Last updated: September 30, 2026</p>
+      <p>
+        By using TudClip, you agree to comply with applicable laws and the terms of service of any third-party platforms 
+        you integrate with, including the TikTok Community Guidelines and Terms of Service.
+      </p>
+      <ul>
+        <li><strong>Content Ownership:</strong> You retain all intellectual property rights to the videos, images, and audio tracks you create using TudClip.</li>
+        <li><strong>Acceptable Use:</strong> You agree not to use TudClip to generate or publish spam, harmful, defamatory, or copyright-infringing content.</li>
+        <li><strong>Platform Disclaimer:</strong> TudClip is an independent software tool and is not officially affiliated with or endorsed by TikTok, ByteDance, YouTube, or Meta.</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 TudClip. Built for creators and marketers.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
